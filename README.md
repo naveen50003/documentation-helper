@@ -23,7 +23,7 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-  git clone https://github.com/emarco177/documentation-helper.git
+  git clone https://github.com/naveen50003/documentation-helper.git
 ```
 
 Go to the project directory

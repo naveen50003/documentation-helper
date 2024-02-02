@@ -31,12 +31,16 @@ def create_sources_string(source_urls: Set[str]) -> str:
 if prompt:
     with st.spinner("Generating response..."):
         generated_response = run_llm(query=prompt, chat_history=st.session_state['chat_history'])
-        sources= set(
-            [doc.metadata["source"] for doc in generated_response["source_documents"]]
-        )
+        # sources= set(
+        #     [doc.metadata["source"] for doc in generated_response["source_documents"]]
+        # )
+
+        # formatted_response = (
+        #     f"{generated_response['answer']} \n \n {create_sources_string(sources)}"
+        # )
 
         formatted_response = (
-            f"{generated_response['answer']} \n \n {create_sources_string(sources)}"
+            f"{generated_response['answer']}"
         )
 
         st.session_state["user_prompt_history"].append(prompt)
