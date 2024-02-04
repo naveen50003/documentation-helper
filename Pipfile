@@ -20,6 +20,13 @@ streamlit-chat = "*"
 tqdm = "*"
 langchain-openai = "*"
 pypdf = "*"
+amazon-textract-caller = "*"
+amazon-textract-textractor = "*"
+pdf2image = "*"
+"pdfminer.six" = "*"
+opencv-python = "*"
+unstructured-inference = "*"
+pikepdf = "*"
 
 [dev-packages]
 

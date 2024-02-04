@@ -1,10 +1,14 @@
 import os
-from langchain_community.document_loaders import ReadTheDocsLoader
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import AmazonTextractPDFLoader
+from langchain_community.document_loaders import PyPDFLoader, UnstructuredPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.pinecone import Pinecone
 from pinecone import Pinecone as PineconeInit
+
+import boto3
+
+textract_client = boto3.client("textract", region_name="us-east-2")
 
 from consts import INDEX_NAME
 
@@ -18,6 +22,8 @@ def ingest_docs(document: any, prompt: str, isDeleteSuccess: bool )->any:
     if not prompt and (isDeleteSuccess == False):
         #loader = ReadTheDocsLoader(path='langchain-docs/langchain.readthedocs.io/en/latest', encoding="utf8")
         loader = PyPDFLoader(document.name)
+        #loader = AmazonTextractPDFLoader(document.name, client=textract_client)
+        #loader =  UnstructuredPDFLoader(document.name)
         raw_documents = loader.load()
         print(f"length of the documents --- {len(raw_documents)} before removing few documents")
         #raw_documents = raw_documents[: len(raw_documents) - 600]

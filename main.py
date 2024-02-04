@@ -31,6 +31,7 @@ def clear_cache():
 
 def change_file_upload():
     st.toast('Uploading...')
+    st.session_state["isDeleteSuccess"] = False
     print("entered file change")
 
 st.header("Chat with PDF Bot")
@@ -70,6 +71,7 @@ if pdf:
             st.session_state["user_prompt_history"].append(st.session_state.prompt)
             st.session_state["chat_answers_history"].append(formatted_response)
             st.session_state["chat_history"].append((st.session_state.prompt, generated_response['answer']))
+            
     if st.session_state["chat_answers_history"]:
         for generated_response, user_query in zip(st.session_state["chat_answers_history"], st.session_state["user_prompt_history"]):
             message(user_query,is_user=True)
