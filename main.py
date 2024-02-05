@@ -20,14 +20,16 @@ def create_sources_string(source_urls: Set[str]) -> str:
     return sources_string
 
 def clear_cache():
-    records = delete_records()
-    print(f"Delete records {len(records)}")
+    with st.spinner("Clearing Cache..."):
+        records = delete_records()
+        print(f"Delete records {len(records)}")
     if not len(records):
         st.session_state["user_prompt_history"] = []
         st.session_state["chat_answers_history"] = []
         st.session_state["chat_history"] = []
         st.session_state["isDeleteSuccess"] = True
         st.session_state.prompt= ''
+        st.toast('Deleted successfully...')
 
 def change_file_upload():
     st.toast('Uploading...')
@@ -48,9 +50,10 @@ if pdf:
     if "chat_history" not in st.session_state:
         st.session_state["chat_history"] = []
 
-    st.text_input("Prompt", key="prompt",placeholder="Enter your prompt here...")
-    ingestResponse = ingest_docs(pdf, st.session_state.prompt, st.session_state.isDeleteSuccess)
+    with st.spinner("Inserting Data..."):
+        ingestResponse = ingest_docs(pdf, st.session_state.prompt, st.session_state.isDeleteSuccess)
     if ingestResponse:
+        st.text_input("Prompt", key="prompt",placeholder="Enter your prompt here...")
         toast = st.toast('Start searching...')
     print(st.session_state["isDeleteSuccess"])
     if st.session_state.prompt and (st.session_state["isDeleteSuccess"] == False):
@@ -71,7 +74,7 @@ if pdf:
             st.session_state["user_prompt_history"].append(st.session_state.prompt)
             st.session_state["chat_answers_history"].append(formatted_response)
             st.session_state["chat_history"].append((st.session_state.prompt, generated_response['answer']))
-            
+            print(st.session_state["prompt"])
     if st.session_state["chat_answers_history"]:
         for generated_response, user_query in zip(st.session_state["chat_answers_history"], st.session_state["user_prompt_history"]):
             message(user_query,is_user=True)
