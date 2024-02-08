@@ -8,6 +8,9 @@ from streamlit_chat import message
 if "isDeleteSuccess" not in st.session_state:
     st.session_state["isDeleteSuccess"] = False
 
+if "prompt" not in st.session_state:
+    st.session_state.prompt = ''
+
 def create_sources_string(source_urls: Set[str]) -> str:
     if not source_urls:
         return ""
@@ -36,8 +39,12 @@ def change_file_upload():
     st.session_state["isDeleteSuccess"] = False
     print("entered file change")
 
-st.header("Chat with PDF Bot")
-st.button("Clear Cache", type="primary", on_click=clear_cache)
+st.set_page_config(page_title="Chat with PDF Bot",
+                       page_icon=":books:")
+#st.title("Chat with PDF Bot")
+st.header("Chat with PDF Bot :books:")
+if st.button("Clear Cache", type="primary"):
+    clear_cache()
 pdf = st.file_uploader(label='Upload the PDF', type='pdf', on_change=change_file_upload)
 
 if pdf:
